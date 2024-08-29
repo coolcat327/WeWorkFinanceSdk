@@ -6,7 +6,7 @@ import datetime
 today = datetime.datetime.today().strftime('%Y%m%d')
 
 # 在data目录下新建以今天日期为名称的目录
-dir_path = os.path.join('data', today)
+dir_path = os.path.join('data/chat_data', today)
 os.makedirs(dir_path, exist_ok=True)
 
 # 获取当前目录下所有扩展名为.xlsx和.jsonl的文件路径

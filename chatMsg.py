@@ -141,8 +141,9 @@ def save_to_mysql(df, table_name, db_config):
             # 创建数据库连接引擎
             engine = create_engine(connection_string)
 
-            # 将 DataFrame 写入 MySQL 数据库的表中
-            df.to_sql(name=table_name, con=engine, if_exists='append', index=False)
+            # 判断如果df非空将 DataFrame 写入 MySQL 数据库的表中
+            if not df.empty:
+                df.to_sql(name=table_name, con=engine, if_exists='append', index=False)
 
             # 关闭数据库连接
             engine.dispose()

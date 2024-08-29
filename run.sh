@@ -2,6 +2,7 @@
 
 start_time=$(date +"%Y-%m-%d %T")
 
+
 if [ -f "chat.jsonl" ] || [ -f "chatdata.jsonl" ]; then
     echo "chat.jsonl 或 chatdata.jsonl 文件已存在，请先备份或删除"
     exit 1
@@ -21,6 +22,11 @@ if [ -f "chat_list.xlsx" ]; then
     python3 getFile.py
 else
     echo "chat_list.xlsx 文件不存在，请先执行 chatMsg.py"
+fi
+
+if [ -f "chat.jsonl" ] || [ -f "chatdata.jsonl" ]; then
+    echo "开始移动本次拉取的记录到备份文件夹"
+    python3 move_file.py
 fi
 
 end_time=$(date +"%Y-%m-%d %T")

@@ -3,7 +3,7 @@ import pandas as pd
 import pymysql
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
-
+import os
 
 def process_chat_data(file_name, encoding='utf-8'):
     # 打开 JSONL 文件，并逐行读取数据
@@ -109,7 +109,18 @@ def process_chat_data(file_name, encoding='utf-8'):
     write_to_excel(df, "chat_list.xlsx", 'list')
 
     # 将数据存入 MySQL 数据库
-    db_config = dotenv_values('.env')
+    # db_config = dotenv_values('.env')
+
+    # 从环境变量中获取数据库配置信息
+    db_config = {
+        'DB_HOST': os.getenv('DB_HOST'),
+        'DB_USER': os.getenv('DB_USER'),
+        'DB_PASSWORD': os.getenv('DB_PASSWORD'),
+        'DB_NAME': os.getenv('DB_NAME'),
+        'DB_PORT': os.getenv('DB_PORT'),
+        'SAVE_TO_DB': os.getenv('SAVE_TO_DB')
+    }
+
     save_to_mysql(df, 'chat_list', db_config)
 
     # 定义消息类型
@@ -133,7 +144,7 @@ def process_chat_data(file_name, encoding='utf-8'):
 
 
 def save_to_mysql(df, table_name, db_config):
-    if db_config.get('SAVE_TO_DB') == 'True':
+    if db_config.get('SAVE_TO_DB') == 'True' or db_config.get('SAVE_TO_DB'):
         try:
             # 创建 MySQL 数据库连接字符串
             connection_string = f"mysql+pymysql://{db_config['DB_USER']}:{db_config['DB_PASSWORD']}@{db_config['DB_HOST']}:{db_config['DB_PORT']}/{db_config['DB_NAME']}"

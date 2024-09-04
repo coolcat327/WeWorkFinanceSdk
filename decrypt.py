@@ -14,7 +14,7 @@ def get_key(key_file):
 
 # 使用公钥加密消息
 def encrypt_data(msg):
-    public_key = get_key('public.pem')
+    public_key = get_key('cert/public.pem')
     # 使用 PKCS#1 v1.5 方式进行加密
     cipher = PKCS1_cipher.new(public_key)
     # 将消息进行 UTF-8 编码并加密
@@ -26,7 +26,7 @@ def encrypt_data(msg):
 
 # 使用私钥解密消息
 def decrypt_data(encrypt_msg):
-    private_key = get_key('private.pem')
+    private_key = get_key('cert/private.pem')
     # 使用 PKCS#1 v1.5 方式进行解密
     cipher = PKCS1_cipher.new(private_key)
     # 对加密的消息进行 Base64 解码并解密

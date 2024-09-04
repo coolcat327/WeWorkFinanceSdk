@@ -1,6 +1,9 @@
-pandas>=1.5.3
-pycryptodome>=3.17
-PyMySQL>=1.0.3
-python-dotenv>=1.0.0
-SQLAlchemy>=1.4.47
-tqdm>=4.65.0
+pandas
+pycryptodome
+PyMySQL
+python-dotenv
+SQLAlchemy
+tqdm
+openpyxl
+numpy
+cryptography

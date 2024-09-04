@@ -74,7 +74,12 @@ class WxChat:
 
         # 输出 DataFrame
         print(df)
-
+        # 如果df为空，则退出程序
+        if df.empty:
+            print("数据为空，暂无新会话数据 ❌")
+            # 删除chat.jsonl
+            os.remove('chat.jsonl')
+            exit()
         # 去重
         print("开始数据去重处理……💕")
         df.drop_duplicates(subset=['seq'], inplace=True)

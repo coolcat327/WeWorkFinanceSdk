@@ -20,12 +20,16 @@ def get_file(msgtype, ext, file=0):
             filename = row['md5sum']
         if file == 1:
             ext = row['fileext']
+        # 检查文件夹是否存在
+        dir_path = os.path.join('data', msgtype)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
         path = f'data/{msgtype}/{filename}.{ext}'
-        # 检查文件是否已存在  
+        # 检查文件是否已存在
         if os.path.exists(path):  
             print(f"文件已存在: {path}")  
         else:  
-            # 调用外部指令  
+            # 调用外部指令
             subprocess.run(['./sdktools', '2', fileid, path])
 
 
@@ -51,16 +55,16 @@ print('通话消息存档完成 💜')
 end_time = time.time()
 print(f"获取资源耗时 {end_time - start_time:.2f} 秒")
 
-# 获取今天的日期，格式为YYYYMMDD
-today = datetime.datetime.today().strftime('%Y%m%d')
+# # 获取今天的日期，格式为YYYYMMDD
+# today = datetime.datetime.now().strftime('%Y%m%d%H%M')
 
-# 在data目录下新建以今天日期为名称的目录
-dir_path = os.path.join('data', today)
-os.makedirs(dir_path, exist_ok=True)
+# # 在data目录下新建以今天日期为名称的目录
+# dir_path = os.path.join('data/chat_data', today)
+# os.makedirs(dir_path, exist_ok=True)
 
-# 获取当前目录下所有扩展名为.xlsx和.jsonl的文件路径
-files = [f for f in os.listdir('.') if f.endswith(('.xlsx', '.jsonl'))]
+# # 获取当前目录下所有扩展名为.xlsx和.jsonl的文件路径
+# files = [f for f in os.listdir('.') if f.endswith(('.xlsx', '.jsonl'))]
 
-# 将这些文件移动到新建的目录中
-for file in files:
-    shutil.move(file, os.path.join(dir_path, file))
+# # 将这些文件移动到新建的目录中
+# for file in files:
+#     shutil.move(file, os.path.join(dir_path, file))

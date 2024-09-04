@@ -1,0 +1,45 @@
+# 两个服务一个sql服务，设置用户为root，密码123456，一个wx_history服务
+version: '1.0'
+services:
+  wx_history_db:
+    restart: always
+    image: mysql:8.0.24
+    container_name: wx_history_db
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: wework
+      MYSQL_ROOT_HOST: "%"
+    # 端口映射
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./sql:/var/lib/mysql
+
+    # 设置环境变量DB_HOST=81.69.240.144 DB_USER=root DB_PASSWORD=123456 DB_NAME=wework DB_PORT=3306 SAVE_TO_DB=True
+  wx_history:
+    image: wx_history:1.0
+    container_name: wx_history
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      DB_HOST: wx_history_db
+      DB_USER: root
+      DB_PASSWORD: 123456
+      DB_NAME: wework
+      DB_PORT: 3306
+      SAVE_TO_DB: True
+      CORPID: wwd3fa4936d7d8e262
+      SECRECTKEY: yEeeeyuff7HpcYtqKSDc35Me5P1WsnTUMhwJRJiSGtU
+    #添加卷映射
+    volumes:
+      - ./log:/app/log
+      - ./data:/app/data
+      - ./sql:/app/sql
+      - ./cert:/app/cert
+    # 添加command
+    command: bash -c "while true; do /app/run.sh >> ./log/$(date +%Y_%m_%d).log 2>&1; python3 mvFile.py; sleep 86400; done"
+
+
+
+

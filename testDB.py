@@ -2,10 +2,17 @@ import pandas as pd
 import pymysql
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
-
+import os
 # 从 .env 文件中读取数据库连接配置
-db_config = dotenv_values('.env')
-
+# db_config = dotenv_values('.env')
+db_config = {
+        'DB_HOST': os.getenv('DB_HOST'),
+        'DB_USER': os.getenv('DB_USER'),
+        'DB_PASSWORD': os.getenv('DB_PASSWORD'),
+        'DB_NAME': os.getenv('DB_NAME'),
+        'DB_PORT': os.getenv('DB_PORT'),
+        'SAVE_TO_DB': os.getenv('SAVE_TO_DB')
+    }
 # 创建 DataFrame
 data = {
     'Name': ['Alice', 'Bob', 'Charlie'],
